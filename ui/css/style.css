@@ -408,6 +408,7 @@ aside h3 { font: 20px/1 "SourceSans"; }
 #article.blog .details .share a { color: #f7921d; font-size: 30px; }
 #article.blog .details .share a:hover { color: #01aef0; }
 #article.blog .details .share a:before { width: 24px; position: relative; top: 5px; }
+#article.blog .details .share a.ico-envelope { display:inline-block; width:22px; height:14px; background:url(../images/ico-envelope.png) no-repeat 0 0; background-size:22px auto; margin-left:7px; }
 #article.blog > p:first-of-type { clear: both; }
 #article.blog .media-contact { font-size: 15px; line-height: 21px; }
 #article.blog .media-contact h5 { font-size: 20px; font-weight: 300; margin-bottom: 10px; }
@@ -565,6 +566,7 @@ aside h3 { font: 20px/1 "SourceSans"; }
 #blog-details { background: #F4F4F4; padding: 20px; }
 #blog-details h3 { font: 18px/19px "SourceSans"; margin-bottom: 5px; }
 #blog-details a { display: block; font: 14px/19px "SourceSans"; color: #f7921d; }
+#blog-details a.ib { display: inline; }
 #blog-details a:hover { color: #01aef0; }
 #blog-details a + h3 { margin-top: 20px; }
 

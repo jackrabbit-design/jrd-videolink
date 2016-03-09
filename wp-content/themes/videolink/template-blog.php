@@ -14,9 +14,9 @@ get_header(); the_post();
         <h2><?php the_title(); ?></h2>
     </div>
     <h2 id="int-logo">VideoLink</h2>
-    
+
     <?php get_template_part('blog-sort') ?>
-        
+
     <div class="wrap int clearfix">
 
         <?php
@@ -46,28 +46,28 @@ get_header(); the_post();
                         <div class="text">
                             <p class="date-auth"><strong><?php the_date('m.d.y') ?></strong> - <a href="<?php echo get_permalink(49) . '?auth=' . $post->post_author ?>"><?php the_author_meta('display_name',$post->post_author) ?></a></p>
                             <h4><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h4>
-                            <p class="date-auth">
+                            <?php /*<p class="date-auth">
                                 <?php
                                 $tags = get_the_terms($post->ID,'post_tag');
                                 if($tags){ ?>
                                     <?php $c = 1; foreach($tags as $tag){
-                                        echo 
+                                        echo
                                             '<a href="'
                                             .get_term_link($tag->slug,$tag->taxonomy)
                                             .'">'
                                             .$tag->name
                                             .'</a>'
-                                            .(count($tags) > $c++ ? ', ' : '');                            
+                                            .(count($tags) > $c++ ? ', ' : '');
                                     }
                                 } ?>
-                            </p>
+                            </p> */ ?>
                             <p class="excerpt"><?php echo get_the_excerpt() ?></p>
                             <a href="<?php the_permalink() ?>" class="go">Continue Reading</a>
                         </div>
                     </li>
                 <?php endwhile; ?>
             </ul>
-            
+
             <div class="loadmore"><?php next_posts_link('Load More'); ?></div>
         <?php endif; wp_reset_postdata(); ?>
 
