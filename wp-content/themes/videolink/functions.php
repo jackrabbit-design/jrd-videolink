@@ -55,6 +55,9 @@ add_image_size( 'inline-video', 530, 300, true);
 add_image_size( 'feat-logo', 180, 50, false);
 add_image_size( 'company-logo', 130, 50, false);
 add_image_size( 'trending-logo', 85, 50, false);
+add_image_size( 'trending-side', 200, 400, false);
+add_image_size( 'pop-thb', 240, 135, true);
+add_image_size( 'mono-client', 160, 80, false);
 
 /* Declare Nav Menu Areas */
 if ( function_exists( 'register_nav_menus' ) ) {
@@ -77,22 +80,22 @@ add_action( 'after_setup_theme', 'admin_font_setup' );
 function hide_meta_boxes() {
      remove_meta_box('postcustom','post','normal'); // custom fields post
      remove_meta_box('postcustom','page','normal'); // custom fields page
-     
+
      //remove_meta_box('commentstatusdiv','post','normal'); // discussion post
      remove_meta_box('commentstatusdiv','page','normal'); // discussion page
-     
+
      //remove_meta_box('commentsdiv','post','normal'); // comments post
      //remove_meta_box('commentsdiv','page','normal'); // comments page
 
      //remove_meta_box('authordiv','post','normal'); // author post
      remove_meta_box('authordiv','page','normal'); // author page
-     
+
      //remove_meta_box('revisionsdiv','post','normal'); // revisions post
      //remove_meta_box('revisionsdiv','page','normal'); // revisions page
-     
+
      //remove_meta_box('postimagediv','post','normal'); // featured image post
      remove_meta_box('postimagediv','page','normal'); // featured image page
-     
+
      //remove_meta_box('pageparentdiv','page','normal'); // page attributes
 
      //remove_meta_box('tagsdiv-post-tag','post','normal'); // post tags
@@ -193,11 +196,11 @@ function check_is_subpage() {
 }
 
 
-/* HOW TO USE 
+/* HOW TO USE
    Plug this code below into your submenu sidebar and set the theme location to use the menu you want to reference. This code checks whether the page is a subpage.
    If page is a subpage it echos the children menu items of it. If page is not it then echos the top level pages of the menu.
 
-<?php if(check_is_subpage() == false){ ?>         
+<?php if(check_is_subpage() == false){ ?>
     <h3><?php bloginfo('name'); ?></h3>
     <div class="submenu-widget">
         <?php wp_nav_menu(array('theme_location' => 'main-menu', 'container' => '', 'menu_class' => 'menu', 'menu_id' => '', 'depth' => 2)); ?>
@@ -224,7 +227,7 @@ function check_is_subpage() {
 function jrd_paginate() {
 	global $wp_query, $wp_rewrite;
 	$wp_query->query_vars['paged'] > 1 ? $current = $wp_query->query_vars['paged'] : $current = 1;
-	
+
 	$pagination = array(
 		'base' => @add_query_arg('page','%#%'),
 		'format' => '',
@@ -237,13 +240,13 @@ function jrd_paginate() {
 		'next_text' => 'Older &raquo;',
 		'prev_text' => '&laquo; Newer'
 		);
-	
+
 	if( $wp_rewrite->using_permalinks() )
 		$pagination['base'] = user_trailingslashit( trailingslashit( remove_query_arg( 's', get_pagenum_link( 1 ) ) ) . 'page/%#%/', 'paged' );
-	
+
 	if( !empty($wp_query->query_vars['s']) )
 		$pagination['add_args'] = array( 's' => urlencode(get_query_var( 's' )) );
-	
+
 	echo '<div class="pagination">';
 	echo paginate_links( $pagination );
 	echo '</div>';
@@ -255,14 +258,14 @@ function jrd_paginate() {
 /* !SHORTCUT CODES */
 /* ========================================================================= */
 /*
-function morelink($atts, $content = null) {  
-    extract(shortcode_atts(array(  
+function morelink($atts, $content = null) {
+    extract(shortcode_atts(array(
         "link" => '',
         "target" => ''
-    ), $atts));  
-    return '<a href="'.$link.'" class="button btn-read-more" target="'.$target.'">'.$content.'</a>';  
-}  
-add_shortcode('button', 'morelink'); 
+    ), $atts));
+    return '<a href="'.$link.'" class="button btn-read-more" target="'.$target.'">'.$content.'</a>';
+}
+add_shortcode('button', 'morelink');
 */
 
 function bcVideo() {
@@ -354,7 +357,7 @@ add_filter('the_posts', 'show_future_posts');
 /* ----- Get File Extension (ex: PDF, DOC) ----- */
 /*
 function jrd_get_file_ext($file_url){
-	return pathinfo($file_url, PATHINFO_EXTENSION); 
+	return pathinfo($file_url, PATHINFO_EXTENSION);
 }
 */
 
@@ -385,7 +388,7 @@ class jrd_walker extends Walker_Nav_Menu
     	$indent = str_repeat("\t", $depth);
     	$output .= "\n$indent<div><ul class=\"sub-menu\">\n";
     }
-    
+
     function end_lvl( &$output, $depth = 0, $args = array() ) {
     	$indent = str_repeat("\t", $depth);
     	$output .= "$indent</ul></div>\n";
@@ -409,7 +412,7 @@ class jrd_walker extends Walker_Nav_Menu
             and $attributes .= ' rel="'    . esc_attr( $item->xfn        ) .'"';
         ! empty( $item->url )
             and $attributes .= ' href="'   . esc_attr( $item->url        ) .'"';
-            
+
         $submenus = $depth == 0 ? get_posts( array( 'post_type' => 'nav_menu_item', 'numberposts' => -1, 'orderby' => 'menu_order', 'order' => 'ASC', 'meta_query' => array( array( 'key' => '_menu_item_menu_item_parent', 'value' => $item->ID ) ) ) ) : false;
 
         $title = apply_filters( 'the_title', $item->title, $item->ID );
@@ -420,8 +423,8 @@ class jrd_walker extends Walker_Nav_Menu
             . '</a> '
             . $args->link_after
             . $args->after;
-            
-        if($depth != 0){ 
+
+        if($depth != 0){
             $item_output = $args->before
                 . "<a $attributes>"
                 . $args->link_before
@@ -448,18 +451,18 @@ function jrd_list_authors($args = '') {
 	global $wpdb;
 
 	$defaults = array(
-		'orderby'       => 'name', 
-		'order'         => 'ASC', 
+		'orderby'       => 'name',
+		'order'         => 'ASC',
 		'number'        => '',
-		'optioncount'   => false, 
+		'optioncount'   => false,
 		'exclude_admin' => true,
-		'show_fullname' => false, 
+		'show_fullname' => false,
 		'hide_empty'    => true,
-		'feed'          => '', 
-		'feed_image'    => '', 
-		'feed_type'     => '', 
+		'feed'          => '',
+		'feed_image'    => '',
+		'feed_type'     => '',
 		'echo'          => true,
-		'style'         => 'list', 
+		'style'         => 'list',
 		'html'          => true
 	);
 
@@ -549,12 +552,12 @@ function jrd_list_authors($args = '') {
 
 
 function after_submission_2(){
-    setcookie('pardot_2',true,time() + (86400)); 
+    setcookie('pardot_2',true,time() + (86400));
 }
 add_action("gform_after_submission_2", "after_submission_2", 10, 2);
 
 function after_submission_3(){
-    setcookie('pardot_3',true,time() + (86400)); 
+    setcookie('pardot_3',true,time() + (86400));
 }
 add_action("gform_after_submission_3", "after_submission_3", 10, 2);
 
@@ -580,3 +583,9 @@ if ( is_admin() ) {
 	}
 	add_filter('wpseo_pre_analysis_post_content', 'add_custom_to_yoast');
 }
+
+
+/* ========================================================================= */
+/* !EASY PRINTR() */
+/* ========================================================================= */
+function printr($var){ echo '<pre>'; print_r($var); echo '</pre>'; };

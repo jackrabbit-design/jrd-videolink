@@ -24,20 +24,35 @@ if(have_rows('pre_footer_fields')){
             <div id="pre-news">
                 <div class="wrap">
                     <h3>News &amp; Events</h3>
-                    <?php query_posts(array(
-                        'post_type' => 'news-posts',
-                        'post_status' => 'publish',
-                        'posts_per_page' => 3
-                    ));
-                    if(have_posts()){ ?>
-                        <?php while(have_posts()){ the_post(); $cat = wp_get_post_terms( $post->ID, 'news-cats'); ?>
+                    <?php if($items = get_sub_field('items_to_show')){
+
+                        foreach($items as $post){
+                            setup_postdata($post);
+                            $cat = wp_get_post_terms( $post->ID, 'news-cats'); ?>
                             <div class="news">
                                 <span><?php echo get_the_date('m.j.y') . ($cat ? ' - ' . $cat[0]->name : '') ?></span>
                                 <a href="<?php the_permalink() ?>" class="title"><?php the_title() ?></a>
                                 <a href="<?php the_permalink() ?>" class="read">Read Article</a>
                             </div>
-                        <?php }
-                    } wp_reset_query(); ?>
+                            <?php wp_reset_postdata();
+                        }
+
+                    }else{
+                        query_posts(array(
+                            'post_type' => 'news-posts',
+                            'post_status' => 'publish',
+                            'posts_per_page' => 3
+                        ));
+                        if(have_posts()){ ?>
+                            <?php while(have_posts()){ the_post(); $cat = wp_get_post_terms( $post->ID, 'news-cats'); ?>
+                                <div class="news">
+                                    <span><?php echo get_the_date('m.j.y') . ($cat ? ' - ' . $cat[0]->name : '') ?></span>
+                                    <a href="<?php the_permalink() ?>" class="title"><?php the_title() ?></a>
+                                    <a href="<?php the_permalink() ?>" class="read">Read Article</a>
+                                </div>
+                            <?php }
+                        } wp_reset_query();
+                    } ?>
                 </div>
             </div>
             <?
@@ -78,7 +93,32 @@ if(have_rows('pre_footer_fields')){
             </div>
             <?php
 
-        }
+        }elseif(get_row_layout() == 'media_text'){ ?>
+
+            <div id="media-text" class="<?php the_sub_field('background_color'); ?>">
+                <div class="wrap">
+
+                    <div class="media <?php the_sub_field('media_position') ?>">
+
+                        <?php if(get_sub_field('image_or_video') == 'image'){
+                            $img = get_sub_field('image');
+                            $thb = $img['sizes']['tab-img'];
+                        }else{
+                            $feat = get_sub_field('video');
+                            $thb = '//play.vidyard.com/' . get_field('vidyard_id',$feat->ID) . '.jpg';
+                        } ?>
+
+                        <img src="<?php echo $thb; ?>" alt="<?php bloginfo('name') ?>" />
+                        <span>
+                            <a class="play lb-trigger" href="<?php echo get_permalink($feat->ID) ?>"></a>
+                        </span>
+                    </div>
+                    <?php the_sub_field('content'); ?>
+                </div>
+
+            </div>
+
+        <?php }
 
     }
 }
